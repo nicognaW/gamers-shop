@@ -62,6 +62,7 @@ class LoginController(override val application: Application) : AbstractDIControl
         }
     }
 
+    // @TODO: Typed request doesn't work
     class Routes {
         @Serializable
         @Resource("/login")
@@ -70,7 +71,7 @@ class LoginController(override val application: Application) : AbstractDIControl
 
     override fun Route.getRoutes() {
         authenticate("auth-api") {
-            post<Routes.LoginRoute> {
+            post("/login") {
                 val principal = call.principal<UserIdPrincipal>()
                 if (principal == null) call.respondRedirect("/login") else {
                     val info = authService.getUserInfo(principal.name)
