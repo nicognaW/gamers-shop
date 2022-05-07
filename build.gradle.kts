@@ -1,8 +1,8 @@
-val ktor_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
-val exposed_version: String by project
-val h2_version: String by project
+val ktorVersion: String by project
+val kotlinVersion: String by project
+val logbackVersion: String by project
+val exposedVersion: String by project
+val h2Version: String by project
 
 plugins {
     application
@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation(kotlin("script-runtime"))
 
     implementation("org.kodein.di:kodein-di:7.11.0")
@@ -34,27 +34,27 @@ dependencies {
     implementation("org.kodein.di:kodein-di-framework-ktor-server-jvm:8.0.0-ktor-2-SNAPSHOT")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:8.0.0-ktor-2-SNAPSHOT")
 
-    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
-    implementation("com.h2database:h2:$h2_version")
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+    implementation("com.h2database:h2:$h2Version")
 
-    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
-    implementation("io.ktor:ktor-server-sessions:$ktor_version")
-    implementation("io.ktor:ktor-server-auth:$ktor_version")
-    implementation("io.ktor:ktor-server-websockets:$ktor_version")
-    implementation("io.ktor:ktor-server-resources:$ktor_version")
-    implementation("io.ktor:ktor-server-default-headers:$ktor_version")
-    implementation("io.ktor:ktor-server-html-builder:$ktor_version")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-auto-head-response:$ktor_version")
-    implementation("io.ktor:ktor-server-status-pages:$ktor_version")
+    implementation("io.ktor:ktor-server-sessions:$ktorVersion")
+    implementation("io.ktor:ktor-server-auth:$ktorVersion")
+    implementation("io.ktor:ktor-server-websockets:$ktorVersion")
+    implementation("io.ktor:ktor-server-resources:$ktorVersion")
+    implementation("io.ktor:ktor-server-default-headers:$ktorVersion")
+    implementation("io.ktor:ktor-server-html-builder:$ktorVersion")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-auto-head-response:$ktorVersion")
+    implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
 
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }
