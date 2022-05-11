@@ -11,6 +11,9 @@
  */
 package com.example.common.vo
 
+import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+
 
 /**
  *
@@ -20,11 +23,18 @@ package com.example.common.vo
  * @param pageTotal 仅响应使用
  * @param total 仅响应使用
  */
+@kotlinx.serialization.Serializable
 data class Page(
+    @SerialName("page_number")
+    @SerializedName("page_number")
     val pageNumber: Int,
+    @SerialName("page_size")
+    @SerializedName("page_size")
     val pageSize: Int,
     val order: String? = null,
     /* 仅响应使用 */
+    @SerialName("page_total")
+    @SerializedName("page_total")
     val pageTotal: Int? = null,
     /* 仅响应使用 */
     val total: Int? = null
