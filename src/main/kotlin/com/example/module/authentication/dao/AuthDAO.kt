@@ -1,8 +1,6 @@
 package com.example.module.authentication.dao
 
-import com.example.plugin.AuthSession
-
-typealias UserInfoDTO = AuthSession.UserInfo
+import com.example.module.authentication.service.UserInfoDTO
 
 interface AuthDAO {
     suspend fun getEncryptedPassword(username: String): String?
