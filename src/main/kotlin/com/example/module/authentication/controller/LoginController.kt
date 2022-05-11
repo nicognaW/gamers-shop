@@ -1,5 +1,6 @@
 package com.example.module.authentication.controller
 
+import com.example.common.response.ErrorResults
 import com.example.common.vo.OperateError
 import com.example.common.vo.OperateResult
 import com.example.module.authentication.json
@@ -24,6 +25,8 @@ class LoginController(override val application: Application) : AbstractDIControl
     private val authService: AuthService by application.closestDI().instance()
 
     companion object {
+        const val AUTHENTICATED_SESSION = "auth-session"
+
         fun Application.authenticationInit() {
             val authService: AuthService by this.closestDI().instance()
             install(Authentication) {
@@ -37,25 +40,25 @@ class LoginController(override val application: Application) : AbstractDIControl
                         when (authenticationFailedCause) {
                             AuthenticationFailedCause.NoCredentials, null -> call.respond(
                                 HttpStatusCode.Unauthorized,
-                                OperateResult(error = OperateError(title = "请提供账户名及密码", status = "NoCredentials"))
+                                ErrorResults.NoCredentials
                             )
                             AuthenticationFailedCause.InvalidCredentials -> call.respond(
                                 HttpStatusCode.Unauthorized,
-                                OperateResult(error = OperateError(title = "账户名或密码不正确", status = "InvalidCredentials"))
+                                ErrorResults.InvalidCredentials
                             )
                             is AuthenticationFailedCause.Error -> call.respond(
-                                HttpStatusCode.Unauthorized,
-                                OperateResult(error = OperateError(title = "系统错误", status = "Error"))
+                                HttpStatusCode.InternalServerError,
+                                ErrorResults.SystemError
                             )
                         }
                     }
                 }
-                session<AuthSession>("auth-session") {
+                session<AuthSession>(AUTHENTICATED_SESSION) {
                     validate { session ->
                         session
                     }
                     challenge {
-                        call.respondRedirect("/login")
+                        call.respond(status = HttpStatusCode.Unauthorized, ErrorResults.Identityless)
                     }
                 }
             }
@@ -73,7 +76,7 @@ class LoginController(override val application: Application) : AbstractDIControl
         authenticate("auth-api") {
             post("/login") {
                 val principal = call.principal<UserIdPrincipal>()
-                if (principal == null) call.respondRedirect("/login") else {
+                if (principal == null) call.respond(HttpStatusCode.BadRequest, ErrorResults.NoCredentials) else {
                     val info = authService.getUserInfo(principal.name)
                     if (info == null) {
                         call.respond(OperateResult(error = OperateError(title = "info is null", "DevError")))
@@ -84,6 +87,18 @@ class LoginController(override val application: Application) : AbstractDIControl
                 }
             }
         }
+        val logoutBuild: Route.() -> Unit = {
+            handle {
+                if (call.sessions.get<AuthSession>() != null) {
+                    call.sessions.clear<AuthSession>()
+                    call.respond(OperateResult(msg = "退出成功"))
+                } else {
+                    call.respond(status = HttpStatusCode.Unauthorized, ErrorResults.Identityless)
+                }
+            }
+        }
+        route("/logout", HttpMethod.Get, logoutBuild)
+        route("/logout", HttpMethod.Post, logoutBuild)
         authenticate("auth-session") {
             if (application.developmentMode) get("/debug/user_info") {
                 call.sessions.get<AuthSession>()?.info?.let {
