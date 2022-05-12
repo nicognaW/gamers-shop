@@ -1,7 +1,9 @@
 package com.example.module.user.controller
 
+import com.example.common.OperateFailCauses
 import com.example.common.ensure
 import com.example.common.infoOrIdentityless
+import com.example.common.response.ErrorResults
 import com.example.common.tryReceive
 import com.example.common.vo.*
 import com.example.module.authentication.controller.LoginController.Companion.AUTHENTICATED_SESSION
@@ -9,6 +11,7 @@ import com.example.module.user.service.UserInfoService
 import com.example.plugin.AuthSession
 import com.example.springify.ApplicationAware
 import com.example.springify.Controller
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.resources.*
@@ -71,8 +74,15 @@ class UserInfoController(override val application: Application) : AbstractDICont
                 val ids: List<Int> = call.tryReceive() ?: return@post
                 val current = call.infoOrIdentityless() ?: return@post
                 val userId = current.id.ensure()
-                userInfoService.removeAddresses(userId, ids)
-                call.respond(OperateResult(msg = "删除成功"))
+                val result = userInfoService.removeAddresses(userId, ids)
+                if (result.success) call.respond(OperateResult(msg = "删除成功")) else when (result.cause) {
+                    OperateFailCauses.RECORD_NOT_EXIST -> call.respond(
+                        HttpStatusCode.BadRequest,
+                        ErrorResults.RecordNotExist.apply { this.error!!.title = "${result.message} 不存在" }
+                    )
+                    OperateFailCauses.UNKNOWN, null ->
+                        call.respond(HttpStatusCode.InternalServerError, ErrorResults.SystemError)
+                }
             }
             post<UserInfoApi.Update> {
                 val tobeUpdated: UserInfo = call.tryReceive() ?: return@post

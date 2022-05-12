@@ -1,5 +1,6 @@
 package com.example.module.user.service
 
+import com.example.common.OperateResultDTO
 import com.example.common.vo.PhysicalAddress
 import com.example.common.vo.UserInfo
 
@@ -43,5 +44,5 @@ interface UserInfoService {
         recordId: Int? = null
     )
 
-    suspend fun removeAddresses(userId: Int, ids: List<Int>)
+    suspend fun removeAddresses(userId: Int, ids: List<Int>): OperateResultDTO
 }

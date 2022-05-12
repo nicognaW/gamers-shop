@@ -13,4 +13,6 @@ object ErrorResults {
     val Identityless = OperateResult(error = OperateError("未登录，请先登录。", "Identityless"))
 
     val InvalidArgument = OperateResult(error = OperateError("无效参数，请检查格式。", "InvalidArgument"))
+
+    val RecordNotExist = OperateResult(error = OperateError("请求的记录不存在", "RecordNotExist"))
 }
