@@ -52,6 +52,7 @@ dependencies {
     implementation("io.ktor:ktor-server-html-builder:$ktorVersion")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
     implementation("io.ktor:ktor-server-auto-head-response:$ktorVersion")
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
 
