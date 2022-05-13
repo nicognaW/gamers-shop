@@ -1,6 +1,7 @@
 package com.example.module.user.service
 
 import com.example.common.OperateResultDTO
+import com.example.common.PageDataDTO
 import com.example.common.vo.PhysicalAddress
 import com.example.common.vo.UserInfo
 
@@ -20,9 +21,8 @@ interface UserInfoService {
         pageNum: Int,
         pageSize: Int,
         order: Any? = null
-    ): List<PhysicalAddress>
+    ): PageDataDTO<PhysicalAddress>
 
-    suspend fun getAddressesCount(id: Int): Int
     suspend fun updateAddress(
         id: Int,
         realName: String,

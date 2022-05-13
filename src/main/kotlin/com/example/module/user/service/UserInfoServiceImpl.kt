@@ -3,6 +3,7 @@ package com.example.module.user.service
 import com.example.common.DatabaseFactory
 import com.example.common.OperateFailCauses
 import com.example.common.OperateResultDTO
+import com.example.common.PageDataDTO
 import com.example.common.dao.PhysicalAddressEntity
 import com.example.common.dao.UserInfoEntity
 import com.example.common.dao.UserPhysicalAddressesEntity
@@ -60,27 +61,24 @@ class UserInfoServiceImpl(override val application: Application) : UserInfoServi
         pageNum: Int,
         pageSize: Int,
         order: Any?
-    ): List<PhysicalAddress> =
+    ): PageDataDTO<PhysicalAddress> =
         DatabaseFactory.dbQuery {
-            return@dbQuery UserPhysicalAddressesEntity[id].pas.copy()
-                .limit(pageSize, ((pageNum - 1) * pageSize).toLong())
-                .map {
-                    return@map PhysicalAddress(
-                        it.id.value,
-                        it.realName,
-                        it.phoneNum,
-                        it.area,
-                        it.city,
-                        it.county,
-                        it.detail
-                    )
-                }
-        } ?: emptyList()
-
-    override suspend fun getAddressesCount(id: Int): Int =
-        DatabaseFactory.dbQuery {
-            return@dbQuery UserPhysicalAddressesEntity[id].pas.copy().count().toInt()
-        } ?: 0
+            return@dbQuery PageDataDTO(
+                data = UserPhysicalAddressesEntity[id].pas.copy()
+                    .limit(pageSize, ((pageNum - 1) * pageSize).toLong())
+                    .map {
+                        return@map PhysicalAddress(
+                            it.id.value,
+                            it.realName,
+                            it.phoneNum,
+                            it.area,
+                            it.city,
+                            it.county,
+                            it.detail
+                        )
+                    }, total = UserPhysicalAddressesEntity[id].pas.count().toInt()
+            )
+        } ?: PageDataDTO(emptyList(), 0)
 
     override suspend fun saveAddress(
         id: Int,

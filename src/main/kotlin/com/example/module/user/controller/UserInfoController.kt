@@ -48,9 +48,9 @@ class UserInfoController(override val application: Application) : AbstractDICont
                         meta = Page(
                             pageNumber = page.pageNumber,
                             pageSize = page.pageSize,
-                            pageTotal = addresses.size,
-                            total = userInfoService.getAddressesCount(userId)
-                        ), data = addresses
+                            pageTotal = addresses.data.size,
+                            total = addresses.total
+                        ), data = addresses.data
                     )
                 )
             }
