@@ -2,6 +2,7 @@ package com.example.common
 
 import com.example.common.response.ErrorResults
 import com.example.common.vo.UserInfo
+import com.example.common.vo.basic.OperateResult
 import com.example.plugin.AuthSession
 import com.google.gson.JsonSyntaxException
 import io.ktor.http.*
@@ -19,6 +20,17 @@ suspend inline fun ApplicationCall.infoOrIdentityless(): UserInfo? {
         this.respond(status = HttpStatusCode.Unauthorized, ErrorResults.Identityless)
         null
     } else info
+}
+
+suspend inline fun ApplicationCall.respondOperateResult(result: OperateResultDTO, operationName: String = "操作成功") {
+    if (result.success) this.respond(OperateResult(msg = operationName)) else when (result.cause) {
+        OperateFailCauses.RECORD_NOT_EXIST -> this.respond(
+            HttpStatusCode.BadRequest,
+            ErrorResults.RecordNotExist.apply { this.error!!.title = "${result.message} 不存在" }
+        )
+        OperateFailCauses.UNKNOWN, null ->
+            this.respond(HttpStatusCode.InternalServerError, ErrorResults.SystemError)
+    }
 }
 
 suspend inline fun <reified T : Any> ApplicationCall.tryReceive(): T? {
