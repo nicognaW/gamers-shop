@@ -103,22 +103,21 @@ class UserInfoServiceImpl(override val application: Application) : UserInfoServi
         }
     }
 
-    override suspend fun removeAddresses(userId: Int, ids: List<Int>): OperateResultDTO {
-        return DatabaseFactory.dbQuery {
-            val idToDelete = mutableSetOf<Int>()
-            ids.forEach {
-                if (PhysicalAddressEntity.findById(it) != null) {
-                    idToDelete.add(it)
-                } else {
-                    return@dbQuery OperateResultDTO(false, "$it", OperateFailCauses.RECORD_NOT_EXIST)
-                }
+    override suspend fun removeAddresses(userId: Int, ids: List<Int>): OperateResultDTO = DatabaseFactory.dbQuery {
+        val idToDelete = mutableSetOf<Int>()
+        ids.forEach {
+            if (PhysicalAddressEntity.findById(it) != null) {
+                idToDelete.add(it)
+            } else {
+                return@dbQuery OperateResultDTO(false, "$it", OperateFailCauses.RECORD_NOT_EXIST)
             }
-            idToDelete.forEach {
-                PhysicalAddressEntity[it].delete()
-            }
-            return@dbQuery OperateResultDTO(true, "删除成功")
-        } ?: OperateResultDTO(false, "数据库事务未知异常", OperateFailCauses.UNKNOWN)
-    }
+        }
+        idToDelete.forEach {
+            PhysicalAddressEntity[it].delete()
+        }
+        return@dbQuery OperateResultDTO(true, "删除成功")
+    } ?: OperateResultDTO(false, "数据库事务未知异常", OperateFailCauses.UNKNOWN)
+
 
     override suspend fun getUserInfo(id: Int): UserInfo = DatabaseFactory.dbQuery {
         val entity = UserInfoEntity[id]
