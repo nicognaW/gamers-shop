@@ -27,10 +27,10 @@ import kotlinx.serialization.SerialName
 data class Page(
     @SerialName("page_number")
     @SerializedName("page_number")
-    val pageNumber: Int,
+    val pageNumber: Int = 1,
     @SerialName("page_size")
     @SerializedName("page_size")
-    val pageSize: Int,
+    val pageSize: Int = 10,
     val order: String? = null,
     /* 仅响应使用 */
     @SerialName("page_total")
