@@ -1,6 +1,7 @@
 package com.example.common.table
 
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.Table
 
 object Products : IntIdTable() {
     val title = text("title")
@@ -8,9 +9,11 @@ object Products : IntIdTable() {
     val status = text("status")
 }
 
-object ProductTags : IntIdTable() {
+object ProductTags : Table() {
     val product = reference("product", Products)
     val tag = reference("tag", Tags)
+
+    override val primaryKey = PrimaryKey(product, tag, name = "PK_ProductTags_product_tag")
 }
 
 object ProductImages : IntIdTable() {
