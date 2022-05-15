@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package com.example.common.vo
+package com.example.common.vo.basic
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
@@ -38,5 +38,6 @@ data class Page(
     val pageTotal: Int? = null,
     /* 仅响应使用 */
     val total: Int? = null
-) 
+)
 
+typealias PageDTO = Page

@@ -1,8 +1,8 @@
 package com.example.module.authentication.controller
 
 import com.example.common.response.ErrorResults
-import com.example.common.vo.OperateError
-import com.example.common.vo.OperateResult
+import com.example.common.vo.basic.OperateError
+import com.example.common.vo.basic.OperateResult
 import com.example.module.authentication.json
 import com.example.module.authentication.service.AuthService
 import com.example.plugin.AuthSession

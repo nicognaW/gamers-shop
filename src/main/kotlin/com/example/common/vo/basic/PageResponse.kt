@@ -1,4 +1,4 @@
-package com.example.common.vo
+package com.example.common.vo.basic
 
 import io.ktor.server.application.*
 import io.ktor.util.pipeline.*

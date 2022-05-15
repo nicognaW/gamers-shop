@@ -1,7 +1,7 @@
 package com.example.common.response
 
-import com.example.common.vo.OperateError
-import com.example.common.vo.OperateResult
+import com.example.common.vo.basic.OperateError
+import com.example.common.vo.basic.OperateResult
 
 object ErrorResults {
     val NoCredentials = OperateResult(error = OperateError(title = "请提供账户名及密码", status = "NoCredentials"))

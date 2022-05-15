@@ -11,7 +11,7 @@
  */
 @file:Suppress("ArrayInDataClass")
 
-package com.example.common.vo
+package com.example.common.vo.basic
 
 /**
  *
