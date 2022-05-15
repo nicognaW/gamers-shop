@@ -41,9 +41,9 @@ class UserInfoController(override val application: Application) : AbstractDICont
                 call.respond(call.infoOrIdentityless() ?: return@get)
             }
             post<UserInfoApi.Addresses> {
-                val page: Page = call.tryReceive() ?: return@post
                 val current = call.infoOrIdentityless() ?: return@post
                 val userId = current.id.ensure()
+                val page: Page = call.tryReceive() ?: return@post
                 val addresses = userInfoService.getAddressesByPage(
                     userId, page.pageNumber, page.pageSize
                 )
