@@ -7,6 +7,7 @@ import com.example.plugin.configureSerialization
 import com.example.plugin.configureWebSockets
 import io.ktor.server.application.*
 import io.ktor.server.plugins.autohead.*
+import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.resources.*
@@ -21,6 +22,7 @@ fun Application.mainModule() {
     install(DefaultHeaders)
     install(StatusPages)
     install(AutoHeadResponse)
+    install(CORS)
     install(Resources)
 
     configureAuthentication()
