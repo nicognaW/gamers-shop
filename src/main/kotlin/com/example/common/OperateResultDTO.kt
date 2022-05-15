@@ -5,4 +5,4 @@ enum class OperateFailCauses {
     RECORD_NOT_EXIST
 }
 
-data class OperateResultDTO(val success: Boolean, val message: String, val cause: OperateFailCauses? = null)
+data class OperateResultDTO(val success: Boolean, val message: String = "", val cause: OperateFailCauses? = null)
