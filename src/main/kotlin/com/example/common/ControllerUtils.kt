@@ -30,6 +30,8 @@ suspend inline fun <reified T : Any> ApplicationCall.tryReceive(): T? {
         this.respond(status = HttpStatusCode.BadRequest, ErrorResults.InvalidArgument)
     } catch (e: CannotTransformContentToTypeException) {
         this.respond(status = HttpStatusCode.BadRequest, ErrorResults.InvalidArgument)
+    } catch (e: Exception) {
+        throw e
     }
     return null
 }

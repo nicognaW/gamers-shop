@@ -1,7 +1,7 @@
 package com.example.module.authentication.service
 
-import com.example.module.authentication.dao.AuthDAO
 import com.example.common.vo.UserInfo
+import com.example.module.authentication.dao.AuthDAO
 import com.example.springify.ApplicationAware
 
 typealias UserInfoVO = UserInfo

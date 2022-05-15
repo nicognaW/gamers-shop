@@ -9,8 +9,7 @@ import io.ktor.server.sessions.*
 import kotlin.time.Duration.Companion.days
 
 
-data class AuthSession(var info: UserInfo) : Principal {
-}
+data class AuthSession(var info: UserInfo) : Principal
 
 @Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
 fun Application.configureAuthentication() {
